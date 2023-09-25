@@ -53,15 +53,16 @@ function getHighestAverageLine(board) {
  */
 function getAllPossiblePayouts(lineValues, possibleNumbers) {
     // Removes index from array (i needs to be in range)
-    const remove  = (ar, i) => [...ar.slice(0, i), ...ar.slice(i+1)];
+    const remove  = (array, i) => [...array.slice(0, i), ...array.slice(i+1)];
 
     // Replaces index in array with x (i needs to be in range)
-    const replace = (ar, i, x) => [...ar.slice(0, i), x, ...ar.slice(i+1)];
+    const replace = (array, i, x) => [...array.slice(0, i), x, ...array.slice(i+1)];
 
-    const i = lineValues.indexOf(0);
+    const zeroIndex = lineValues.indexOf(0);
 
-    return i === -1 ? [getPayout(getSum(lineValues))]
-                    : possibleNumbers.map((n, j) => getAllPossiblePayouts(replace(lineValues, i, n), remove(possibleNumbers, j))).flat();
+    return zeroIndex === -1
+                        ? [getPayout(getSum(lineValues))]
+                        : possibleNumbers.map((number, i) => getAllPossiblePayouts(replace(lineValues, zeroIndex, number), remove(possibleNumbers, i))).flat();
 }
 
 /**
